@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  oneinc.azfunc:
+    image: ${DOCKER_REGISTRY-}oneincazfunc
+    build:
+      context: .
+      dockerfile: OneInc.AzFunc/Dockerfile
+
+  oneinc.web:
+    image: ${DOCKER_REGISTRY-}oneincweb
+    build:
+      context: .
+      dockerfile: OneInc.Web/Dockerfile
+
+
+  oneinc.api:
+    image: ${DOCKER_REGISTRY-}oneincapi
+    build:
+      context: .
+      dockerfile: OneInc.Api/Dockerfile
+

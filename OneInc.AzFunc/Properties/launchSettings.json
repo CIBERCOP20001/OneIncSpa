@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "OneInc.AzFunc": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7122"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 5003,
+      "useSSL": false
+    }
+  }
+}
