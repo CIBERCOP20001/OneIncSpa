@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OneInc.Common.Model;
 using OneInc.DAL.Repository;
+using System.Text;
 
 namespace OneInc.Api.Controllers
 {
@@ -29,8 +30,14 @@ namespace OneInc.Api.Controllers
         }
 
         [HttpPost]
-        public ActionResult<EncodedString> CreateEncodedString(EncodedString encodedString)
+        public ActionResult<EncodedString> CreateEncodedString(string id)
         {
+            string encodedStr = Convert.ToBase64String(Encoding.UTF8.GetBytes(id), Base64FormattingOptions.None);
+            EncodedString encodedString = new EncodedString()
+            {
+                Id = id,
+                EncodedValue = encodedStr
+            };
 
             _repo.CreatedEncodeString(encodedString);
 

@@ -18,6 +18,10 @@
         <InputText id="txtString" @bind-Value="encodedString.Id" class="form-control" />
         <ValidationMessage For="() => encodedString.Id" />
     </div>
+    <div class="form-group">
+        <label for="txtEncoded">Encoded String</label>
+        <InputText id="txtEncoded" readonly="readonly" @bind-Value="encodedString.EncodedValue" class="form-control" />
+    </div>
     <hr />
     @if (cmdStartDisableState == true)
     {
@@ -37,6 +41,7 @@
     static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
     CancellationToken token = cancellationTokenSource.Token;
     static int cont = 0;
+
     private async void cmdStart()
     {
         if (!string.IsNullOrEmpty(encodedString.Id))
@@ -46,11 +51,12 @@
             var cachedValue = await IsCached(encodedString.Id);
             if (cachedValue.found)
             {
-                await GetEncoded(cachedValue.encodedString.ToString(), token);
+                await GetEncoded(cachedValue.encodedString.EncodedValue.ToString(), token);
             }
             else
             {
-
+                var encodedStr = await EncodeString(encodedString.Id);
+                await GetEncoded(encodedStr.EncodedValue.ToString(), token);
             }
 
             return;
@@ -58,7 +64,7 @@
         var strToEncode = encodedString.Id;
     }
 
-    private async void cmdStop()
+    private void cmdStop()
     {
         cancellationTokenSource.Cancel();
         cmdStartDisableState = false;
@@ -66,32 +72,61 @@
 
     private async Task GetEncoded(string encoded, CancellationToken token)
     {
+        Random rnd = new Random();
         try
         {
+            string value = string.Empty;
+            int waitingValue = 0;
 
-
-            while (!token.IsCancellationRequested)
+            for (int i = 0; i <= encoded.Length - 1; i++)
             {
-                await Task.Delay(10);
-                cont++;
+                waitingValue = rnd.Next(5) * 1000;
+                await Task.Delay(waitingValue);
+
+                encodedString.EncodedValue += encoded[i];
+                StateHasChanged();
+
+                if (token.IsCancellationRequested)
+                {
+                    throw new OperationCanceledException("canceled by user", token);
+                };
+                Console.WriteLine($"seconds -> {waitingValue}");
+                Console.WriteLine(encoded[i]);
             }
-
-
+            return;
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException ex)
         {
-            
-            var canceled = true;
+            Console.WriteLine(ex.Message);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
+        }
+    }
 
-            throw;
-        }
-        finally
+    private async Task<EncodedString> EncodeString(string id)
+    {
+        HttpClientHandler clientHandler = new HttpClientHandler();
+        clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+        // Pass the handler to httpclient(from you are calling api)
+        HttpClient client = new HttpClient(clientHandler);
+
+        using var response = await client.PostAsJsonAsync($"https://oneincapi/api/EncodedStrings?id={id}", id);
+
+        if (response.IsSuccessStatusCode)
         {
-            var canceled = true;
+            var encodedResponse = await client.GetAsync($"https://oneincapi/api/EncodedStrings/{id}", HttpCompletionOption.ResponseHeadersRead);
+
+            if (encodedResponse.IsSuccessStatusCode)
+            {
+                var responseString = await response.Content.ReadAsStringAsync(CancellationToken.None);
+                var res = JsonSerializer.Deserialize<EncodedString>(responseString);
+                return res;
+            }
         }
+        return null;
     }
 
     private async Task<(EncodedString? encodedString, bool found)> IsCached(string id)
@@ -106,12 +141,6 @@
 
         if (response.IsSuccessStatusCode)
         {
-            var options = new JsonSerializerOptions
-                {
-                    DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                    WriteIndented = true
-                };
-
             var responseString = await response.Content.ReadAsStringAsync(CancellationToken.None);
             var res = JsonSerializer.Deserialize<EncodedString>(responseString);
             return (res, true);

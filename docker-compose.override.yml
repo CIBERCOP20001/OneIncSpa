@@ -1,9 +1,15 @@
 version: '3.4'
 
 services:
-  oneinc.azfunc:
+  oneincazfunc:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+"
+      - ASPNETCORE_HTTPS_PORT= "5003"
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    ports:
+      - "5003:5003"
   oneinc.web:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development

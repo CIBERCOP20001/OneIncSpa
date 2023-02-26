@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  oneinc.azfunc:
+  oneincazfunc:
     image: ${DOCKER_REGISTRY-}oneincazfunc
     build:
       context: .
@@ -11,6 +11,7 @@ services:
     image: ${DOCKER_REGISTRY-}oneincweb
     depends_on:
       - "oneincapi"
+      - "oneincazfunc"
     build:
       context: .
       dockerfile: OneInc.Web/Dockerfile
