@@ -3,15 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneInc.Web", "OneInc.Web\OneInc.Web.csproj", "{E2AC6253-A1AA-4C98-84A0-AA05A27BC41C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneInc.Web", "OneInc.Web\OneInc.Web.csproj", "{E2AC6253-A1AA-4C98-84A0-AA05A27BC41C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneInc.AzFunc", "OneInc.AzFunc\OneInc.AzFunc.csproj", "{BA428CDA-8F7E-489F-A7A2-0322E65DBF03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneInc.AzFunc", "OneInc.AzFunc\OneInc.AzFunc.csproj", "{BA428CDA-8F7E-489F-A7A2-0322E65DBF03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneInc.DAL", "OneInc.DAL\OneInc.DAL.csproj", "{FA8EB47E-806D-4274-838D-81E0219B7BF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneInc.DAL", "OneInc.DAL\OneInc.DAL.csproj", "{FA8EB47E-806D-4274-838D-81E0219B7BF4}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{67C17FB6-D4AD-4935-8948-FC563D60D1E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneInc.Api", "OneInc.Api\OneInc.Api.csproj", "{FFFB2960-F024-4929-9E4F-A7E049D25597}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneInc.Api", "OneInc.Api\OneInc.Api.csproj", "{FFFB2960-F024-4929-9E4F-A7E049D25597}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneInc.Common", "..\OneInc.Common\OneInc.Common.csproj", "{57170DDB-5C40-4610-81D8-088DC179F0FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneInc.BL", "..\OneInc.BL\OneInc.BL.csproj", "{0C34CA42-1271-46D2-B374-19E077940A32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{FFFB2960-F024-4929-9E4F-A7E049D25597}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFFB2960-F024-4929-9E4F-A7E049D25597}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFFB2960-F024-4929-9E4F-A7E049D25597}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57170DDB-5C40-4610-81D8-088DC179F0FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57170DDB-5C40-4610-81D8-088DC179F0FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57170DDB-5C40-4610-81D8-088DC179F0FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57170DDB-5C40-4610-81D8-088DC179F0FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C34CA42-1271-46D2-B374-19E077940A32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C34CA42-1271-46D2-B374-19E077940A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C34CA42-1271-46D2-B374-19E077940A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C34CA42-1271-46D2-B374-19E077940A32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
