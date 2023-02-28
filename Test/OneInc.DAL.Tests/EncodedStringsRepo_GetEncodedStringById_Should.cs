@@ -16,7 +16,7 @@ namespace OneInc.DAL.Tests
         }
 
         [Fact]
-        public void ThrowArgunmentOutOfRangeWhenEncStrIsNull()
+        public void ThrowsArgunmentOutOfRangeWhenEncStrIsNull()
         {
             //Arrange
 
@@ -29,7 +29,7 @@ namespace OneInc.DAL.Tests
 
 
         [Fact]
-        public void ReturnValidEncodedStringObjWhenFound()
+        public void ReturnsValidEncodedStringObjWhenFound()
         {
             //Arrange
 
@@ -60,6 +60,40 @@ namespace OneInc.DAL.Tests
             Assert.NotNull(res);
             Assert.Equal(obj.Id, res.Id);
             Assert.Equal(obj.EncodedValue, res.EncodedValue);
+            mockDatabase.Verify(x => x.StringGet(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()), Times.Once());
+        }
+
+
+        [Fact]
+        public void ReturnsNullWhenNotFound()
+        {
+            //Arrange
+
+            var mockMultiplexer = new Mock<IConnectionMultiplexer>();
+
+            mockMultiplexer.Setup(_ => _.IsConnected).Returns(false);
+
+            var mockDatabase = new Mock<IDatabase>();
+
+            mockMultiplexer
+                .Setup(_ => _.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
+                .Returns(mockDatabase.Object);
+
+            var obj = new EncodedString() { Id = "IdValue", EncodedValue = "EncodedValue" };
+
+            RedisValue expecteValue = JsonSerializer.Serialize(obj);
+
+            mockDatabase.Setup(db => db.StringGet(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+            .Returns(string.Empty);
+
+            var sut = new EncodedStringsRepo(mockMultiplexer.Object);
+
+            //Act 
+            var res = sut.GetEncodedStringById("anyValue");
+
+            //Assert
+
+            Assert.Null(res);
             mockDatabase.Verify(x => x.StringGet(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()), Times.Once());
         }
     }
