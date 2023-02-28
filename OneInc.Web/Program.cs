@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using OneInc.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +25,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapBlazorHub();
+
 app.MapFallbackToPage("/_Host");
- 
+
 app.Run();
